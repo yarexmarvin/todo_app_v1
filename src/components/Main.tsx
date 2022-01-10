@@ -30,14 +30,13 @@ const Main: FC = () => {
     return <div className='App__inner'>
         {todos.filter === 'all' ?
             <div>{tasks.length ? tasks.map((todo: ITask) => {
-                return <><Link
-                to={`/main/${todo.id}`}
+                return <Link
+                to={`/todo/${todo.id}`}
                     onDoubleClick={() => deleteTodo(todo.id)}
                     key={todo.id}>
                     <input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.completed} />
                     {todo.title}
                 </Link>
-                </>
             }) : ""}
             </div>
             :
@@ -45,7 +44,7 @@ const Main: FC = () => {
                 .filter(todo => todo.completed === todos.filter)
                 .map((todo: ITask) => {
                     return <Link
-                        to={`/main/${todo.id}`}
+                        to={`/todo/${todo.id}`}
                         onDoubleClick={() => deleteTodo(todo.id)}
                         key={todo.id}>
                         <input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.completed} />
@@ -60,8 +59,6 @@ const Main: FC = () => {
         <button onClick={() => changeTodoFilter(true)}>show completed</button>
         <button onClick={() => changeTodoFilter(false)}>show current</button>
         <button onClick={toForm} >to form</button>
-        <Outlet />
-
     </div>
 }
 

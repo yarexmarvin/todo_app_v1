@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAppActions } from '../hooks/useAppActions';
 import { ITask } from "../types/todo";
 
@@ -13,17 +14,21 @@ const TodoForm: FC = () => {
         setNewTask(oldVal => event.target.value)
     }
 
+    const history = useNavigate();
 
     function addNewTask(taskTitle: string): void {
         const newTask: ITask = {
-            id: Math.random() * 100,
+            id: Math.floor(Math.random()* 100),
             title: taskTitle,
             completed: false
         }
         if (taskTitle.trim() !== '') {
             addTodo(newTask);
+            setNewTask('');
+            history('/')
+
         }
-        setNewTask('')
+        
     }
 
 

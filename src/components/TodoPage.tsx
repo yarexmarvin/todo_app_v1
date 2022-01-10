@@ -20,7 +20,7 @@ const TodoPage:FC = () => {
     }
 
     if(!todoId){
-        return <Navigate to="/main" replace />
+        return <Navigate to="/" replace />
     }
 
     return <div>

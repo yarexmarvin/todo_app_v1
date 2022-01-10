@@ -6,7 +6,7 @@
   height: 100vh;
   width: 100%;
 }
-.App__inner{
+.App__inner > div{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -23,3 +23,28 @@
   height: 100%;
   transition: all 0.3s ease;
 }
+a{
+
+  text-decoration: none;
+  color: black;
+  transition: all 0.2s ease-in-out;
+
+}
+
+a:hover{
+  opacity: 0.8;
+}
+.nav a.active{
+  color: green;
+  font-size: 20px;
+}
+
+.nav a {
+  font-weight: 600;
+  font-size: 18px;
+  color: blue;
+  margin: 0 1vw;
+  transition: all 0.2s ease-in-out;
+}
+
+

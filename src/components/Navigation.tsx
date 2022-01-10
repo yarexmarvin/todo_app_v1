@@ -1,11 +1,16 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 
-const Navigation:FC = () => {
+const Navigation: FC = () => {
     return <div>
-        <Link to="main">Home</Link>
-        <Link to="form">Form</Link>
+        <header className='nav'>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="form">Form</NavLink>
+        </header>
+
+
+        <Outlet />
     </div>
 }
 

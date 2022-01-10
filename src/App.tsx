@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import { } from 'react-router-dom';
 import TodoPage from './components/TodoPage';
 import NoTodo from './components/NoTodo';
+import Todo from './components/Todo';
 
 
 function App() {
@@ -23,11 +24,13 @@ function App() {
     <div>
       {todos.loading ? <div className="alert">Loading...</div> : ''}
       <BrowserRouter>
-        <Navigation />
+        
 
         <Routes>
-          <Route path="/">
-            <Route path="main" element={<Main />}>
+
+          <Route path="/" element={<Navigation />}>
+            <Route index element={<Main />}/>
+            <Route path="todo" element={<Todo />}>
               <Route path=":todoId" element={<TodoPage />} />
             </Route>
             <Route path="form" element={<TodoForm />} />
