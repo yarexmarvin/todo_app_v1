@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { FC, useEffect, useState } from "react";
+import { Link, Outlet, useRoutes, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
@@ -12,7 +12,11 @@ const Main: FC = () => {
 
     const { changeTodoFilter, completeTodo, deleteTodo, fetchTodos } = useAppActions();
 
-    const [tasks, setTasks] = useState<ITask[]>([])
+    const [tasks, setTasks] = useState<ITask[]>([]);
+    const [search, setSearch] = useState<string>('')
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const todoQuery = searchParams.get('todo') || ''
 
     useEffect(() => {
         console.log(todos)
@@ -26,10 +30,33 @@ const Main: FC = () => {
         navigate('/form')
       }
 
+      interface IParams {
+          todo: string;
+      }
+
+    function handleSubmit(){
+        let params: IParams;
+        if(!search){
+            setSearchParams({})
+        }
+        setSearchParams({todo: search});
+        setSearch('')
+
+    }
+
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement>){
+        setSearch(e.target.value)
+    }
 
     return <div className='App__inner'>
-        {todos.filter === 'all' ?
-            <div>{tasks.length ? tasks.map((todo: ITask) => {
+      
+            <input value={search} type='search' onChange={e=>handleSearch(e)}/>
+            <input type='submit' value='search' onClick={handleSubmit} />
+        
+        {todos.filter === 'all'   ?
+            <div>{tasks.length ? tasks
+                .filter(todo => todo.title.includes(todoQuery))
+                .map((todo: ITask) => {
                 return <Link
                 to={`/todo/${todo.id}`}
                     onDoubleClick={() => deleteTodo(todo.id)}
@@ -41,7 +68,7 @@ const Main: FC = () => {
             </div>
             :
             <div>{tasks.length ? tasks
-                .filter(todo => todo.completed === todos.filter)
+                .filter(todo => todo.completed === todos.filter && todo.title.includes(todoQuery))
                 .map((todo: ITask) => {
                     return <Link
                         to={`/todo/${todo.id}`}
