@@ -1,13 +1,27 @@
 import { FC } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import useAppSelector from "../hooks/useAppSelector";
+import Navigation from "./Navigation";
+import NoTodo from "./NoTodo";
 
 
 const TodoPage:FC = () => {
     const todos = useAppSelector(state => state.todos);
 
     let params = useParams();
-    let todoId = todos.todos.filter(todo => todo.id === parseInt(params.todoId,10))
+    let todoId = getTargetTodo();
+
+    function getTargetTodo(){
+        if(todos.todos.length){
+            return todos.todos.filter(todo => todo.id === parseInt(params.todoId,10));
+        }else{
+            return undefined
+        }
+    }
+
+    if(!todoId){
+        return <Navigate to="/main" replace />
+    }
 
     return <div>
         <h1>TodoPage</h1>

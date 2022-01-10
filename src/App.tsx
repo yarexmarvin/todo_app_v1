@@ -7,6 +7,7 @@ import Main from './components/Main';
 import Navigation from './components/Navigation';
 import { } from 'react-router-dom';
 import TodoPage from './components/TodoPage';
+import NoTodo from './components/NoTodo';
 
 
 function App() {
@@ -30,7 +31,11 @@ function App() {
               <Route path=":todoId" element={<TodoPage />} />
             </Route>
             <Route path="form" element={<TodoForm />} />
+            <Route path="*" element={<NoTodo/>} />
+
           </Route>
+
+          
 
         </Routes>
       </BrowserRouter>
