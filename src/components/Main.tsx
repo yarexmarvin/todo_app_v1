@@ -208,7 +208,7 @@ const Main: FC = () => {
                     .filter((todo) => todo.title.includes(todoQuery))
                     .map((todo: ITask) => {
                       return (
-                        <ListItem>
+                        <ListItem  key={todo.id}>
                           <Checkbox
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
@@ -216,7 +216,7 @@ const Main: FC = () => {
                           <Link
                             to={`/todo/${todo.id}`}
                             onDoubleClick={() => deleteTodo(todo.id)}
-                            key={todo.id}
+                           
                           >
                             {todo.title}
                           </Link>
@@ -236,7 +236,7 @@ const Main: FC = () => {
                     )
                     .map((todo: ITask) => {
                       return (
-                        <ListItem>
+                        <ListItem  key={todo.id}>
                           <Checkbox
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
@@ -244,7 +244,6 @@ const Main: FC = () => {
                           <Link
                             to={`/todo/${todo.id}`}
                             onDoubleClick={() => deleteTodo(todo.id)}
-                            key={todo.id}
                           >
                             {todo.title}
                           </Link>

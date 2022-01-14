@@ -9,6 +9,7 @@ import { } from 'react-router-dom';
 import TodoPage from './components/TodoPage';
 import NoTodo from './components/NoTodo';
 import Todo from './components/Todo';
+import { Snackbar } from '@mui/material';
 
 
 function App() {
@@ -22,7 +23,15 @@ function App() {
 
   return (
     <div>
-      {todos.loading ? <div className="alert">Loading...</div> : ''}
+      <Snackbar
+
+      open={todos.loading}
+      message='Fetching random todos...'
+      autoHideDuration={5000}
+      
+
+      />
+        
       <BrowserRouter>
         
 
