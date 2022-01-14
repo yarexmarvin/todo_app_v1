@@ -7,8 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useRoutes } from "react-router-dom";
 import { Navigate, useParams } from "react-router-dom";
+import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
 import Navigation from "./Navigation";
 import NoTodo from "./NoTodo";
@@ -18,6 +19,8 @@ const TodoPage: FC = () => {
 
   let params = useParams();
   let todoId = getTargetTodo();
+
+  let navigate = useNavigate();
 
   function getTargetTodo() {
     if (todos.todos.length) {
@@ -29,9 +32,9 @@ const TodoPage: FC = () => {
     }
   }
 
-  if (!todoId) {
-    return <Navigate to="/" replace />;
-  }
+  
+
+  const {completeTodo, deleteTodo} = useAppActions()
 
   return (
     <Container>
@@ -41,13 +44,13 @@ const TodoPage: FC = () => {
           <Typography component={"p"}>{todoId[0].title}</Typography>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color="success">
-            completed
+          <Button onClick={()=>completeTodo(todoId[0].id)  }  variant="contained" color={todoId[0].completed? "success": 'warning'}>
+            {todoId[0].completed? 'completed': 'complete'}
           </Button>
-          <Button variant="contained" color="error">
+          <Button onClick={()=>{deleteTodo(todoId[0].id); navigate('/') }} variant="contained" color="error">
             delete
           </Button>
-          <Button variant="contained" color="info">
+          <Button  variant="contained" color="info">
             <Link style={{ color: "white" }} to="/">
               go back
             </Link>

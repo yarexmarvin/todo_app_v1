@@ -34,6 +34,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
 import { ITask } from "../types/todo";
+import { Box } from "@mui/system";
 
 const Main: FC = () => {
   const todos = useAppSelector((state) => state.todos);
@@ -191,7 +192,7 @@ const Main: FC = () => {
             </IconButton>
             <InputBase
               type="search"
-              sx={{ ml: 1, flexGrow: "20%" }}
+              sx={{ ml: 1, flex: "1" }}
               placeholder="search todo"
               inputProps={{ "aria-label": "search" }}
               value={search}
@@ -220,7 +221,6 @@ const Main: FC = () => {
                           />
                           <Link
                             to={`/todo/${todo.id}`}
-                            onDoubleClick={() => deleteTodo(todo.id)}
                           >
                             {todo.title}
                           </Link>
@@ -247,7 +247,6 @@ const Main: FC = () => {
                           />
                           <Link
                             to={`/todo/${todo.id}`}
-                            onDoubleClick={() => deleteTodo(todo.id)}
                           >
                             {todo.title}
                           </Link>
@@ -258,9 +257,13 @@ const Main: FC = () => {
             </div>
           )}
         </List>
-        <Fab variant="extended" color="primary">
-            <Link style={{color: '#fff'}} to="form">create a new task</Link>
-        </Fab>
+        <Box sx={{ display: "flex", justifyContent: "flex-start" , width: '100%', mt: '1vmax'}}>
+          <Fab variant="extended" color="primary" size="medium">
+            <Link style={{ color: "#fff" }} to="form">
+              create a new task
+            </Link>
+          </Fab>
+        </Box>
       </Container>
     </div>
   );

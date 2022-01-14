@@ -10,10 +10,13 @@ import {
 import React, { FC, ReactNode, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
+import useAppSelector from "../hooks/useAppSelector";
 import { ITask } from "../types/todo";
 
 const TodoForm: FC = () => {
   const { addTodo } = useAppActions();
+
+  const todos = useAppSelector(state => state.todos.todos)
 
   const [newTask, setNewTask] = useState("");
   function setNewTaskTitle(
@@ -24,9 +27,19 @@ const TodoForm: FC = () => {
 
   const history = useNavigate();
 
+  const getTaskId = ():number => {
+      let newId = Math.floor(Math.random()*1000);
+      let existedId = todos.findIndex(todo => todo.id === newId);
+      if(existedId === -1){
+          return newId
+      } 
+      return getTaskId();
+  }
+
+
   function addNewTask(taskTitle: string): void {
     const newTask: ITask = {
-      id: Math.floor(Math.random() * 100),
+      id: getTaskId(),
       title: taskTitle,
       completed: false,
     };
