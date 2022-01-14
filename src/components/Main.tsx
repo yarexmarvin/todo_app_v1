@@ -1,85 +1,262 @@
-import React, { FC, useEffect, useState } from "react";
-import { Link, Navigate, Outlet, useHref, useRoutes, useSearchParams } from "react-router-dom";
+import {
+  AppBar,
+  Checkbox,
+  Container,
+  Fade,
+  IconButton,
+  InputBase,
+  List,
+  ListItem,
+  Menu,
+  MenuItem,
+  Paper,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { styled, alpha } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreVertRounded from "@mui/icons-material/MoreVertRounded";
+import React, { FC, useEffect, useRef, useState } from "react";
+import {
+  Link,
+  Navigate,
+  NavLink,
+  Outlet,
+  useHref,
+  useRoutes,
+  useSearchParams,
+} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
 import { ITask } from "../types/todo";
 
-
 const Main: FC = () => {
+  const todos = useAppSelector((state) => state.todos);
 
-    const todos = useAppSelector(state => state.todos);
+  const { changeTodoFilter, completeTodo, deleteTodo, fetchTodos } =
+    useAppActions();
 
-    const { changeTodoFilter, completeTodo, deleteTodo, fetchTodos } = useAppActions();
+  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-    const [tasks, setTasks] = useState<ITask[]>([]);
-    const [search, setSearch] = useState<string>('')
+  function handleClose() {
+    setAnchorEl(null);
+  }
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    let todoQuery = searchParams.get('todo') || ''
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    useEffect(() => {
-        console.log(todos)
-        setTasks(todos.todos)
-      }, [todos])
+  const [searchParams, setSearchParams] = useSearchParams();
+  let todoQuery = searchParams.get("todo") || "";
 
+  useEffect(() => {
+    console.log(todos);
+    setTasks(todos.todos);
+  }, [todos]);
 
-      let navigate = useNavigate()
+  let navigate = useNavigate();
 
-      function toForm(){
-        navigate('/form')
-      }
+  function toForm() {
+    navigate("/form");
+  }
 
-      interface IParams {
-          todo: string;
-      }
+  interface IParams {
+    todo: string;
+  }
 
-    useEffect(()=>{
-        setSearchParams({todo: search});
-    },[search])
+  function debounce<T extends Function>(fn: T, ms: number) {
+    let timer;
+    return function (args: string) {
+      let fnCallee = () => {
+        fn(args);
+      };
 
-    function handleSearch(e: React.ChangeEvent<HTMLInputElement>){
-        setSearch(e.target.value);
-    }
+      clearTimeout(timer);
 
-    return <div className='App__inner'>
-      
-            <input value={search} type='search' onChange={e=>handleSearch(e)}/>
-        
-        {todos.filter === 'all'   ?
-            <div>{tasks.length ? tasks
-                .filter(todo => todo.title.includes(todoQuery))
-                .map((todo: ITask) => {
-                return <Link
-                to={`/todo/${todo.id}`}
-                    onDoubleClick={() => deleteTodo(todo.id)}
-                    key={todo.id}>
-                    <input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.completed} />
-                    {todo.title}
-                </Link>
-            }) : ""}
+      timer = setTimeout(fnCallee, ms);
+    };
+  }
+  function sendToSearch(search: string) {
+    setSearchParams({ todo: search });
+  }
+
+  let sendToSearchDebounced = debounce(sendToSearch, 500);
+
+  useEffect(() => {
+    sendToSearchDebounced(search);
+  }, [search]);
+
+  function handleSearch(value: string) {
+    setSearch(value);
+  }
+
+  const handleSearchDebounce = debounce(handleSearch, 1000);
+
+  return (
+    <div className="App__inner">
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton
+            id="fade-button"
+            aria-controls={open ? "fade-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MoreVertRounded />
+          </IconButton>
+          <Menu
+            id="fade-menu"
+            MenuListProps={{
+              "aria-labelledby": "fade-button",
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Fade}
+          >
+            <MenuItem
+              onClick={() => {
+                fetchTodos();
+                handleClose();
+              }}
+            >
+              fetch todos
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeTodoFilter("all");
+                handleClose();
+              }}
+            >
+              Show all
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeTodoFilter(true);
+                handleClose();
+              }}
+            >
+              Show Completed
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeTodoFilter(false);
+                handleClose();
+              }}
+            >
+              Show Current
+            </MenuItem>
+          </Menu>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          >
+            <div className="nav">
+              <NavLink to="form">create a new task</NavLink>
             </div>
-            :
-            <div>{tasks.length ? tasks
-                .filter(todo => todo.completed === todos.filter && todo.title.includes(todoQuery))
-                .map((todo: ITask) => {
-                    return <Link
-                        to={`/todo/${todo.id}`}
-                        onDoubleClick={() => deleteTodo(todo.id)}
-                        key={todo.id}>
-                        <input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.completed} />
-                        {todo.title}
-                    </Link>
-                }) : ''}
-            </div>}
+          </Typography>
+          <Paper
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              width: 400,
+            }}
+            component="div"
+          >
+            <IconButton sx={{ p: "10px" }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+            <InputBase
+              type="search"
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="search todo"
+              inputProps={{ "aria-label": "search" }}
+              value={search}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleSearch(e.target.value)
+              }
+            />
+          </Paper>
+        </Toolbar>
+      </AppBar>
+      <Container sx={{m: '5vmax 0 1vmin'}}>
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        >
+          {todos.filter === "all" ? (
+            <div>
+              {tasks.length
+                ? tasks
+                    .filter((todo) => todo.title.includes(todoQuery))
+                    .map((todo: ITask) => {
+                      return (
+                        <ListItem>
+                          <Checkbox
+                            onChange={() => completeTodo(todo.id)}
+                            checked={todo.completed}
+                          />
+                          <Link
+                            to={`/todo/${todo.id}`}
+                            onDoubleClick={() => deleteTodo(todo.id)}
+                            key={todo.id}
+                          >
+                            {todo.title}
+                          </Link>
+                        </ListItem>
+                      );
+                    })
+                : ""}
+            </div>
+          ) : (
+            <div>
+              {tasks.length
+                ? tasks
+                    .filter(
+                      (todo) =>
+                        todo.completed === todos.filter &&
+                        todo.title.includes(todoQuery)
+                    )
+                    .map((todo: ITask) => {
+                      return (
+                        <ListItem>
+                          <Checkbox
+                            onChange={() => completeTodo(todo.id)}
+                            checked={todo.completed}
+                          />
+                          <Link
+                            to={`/todo/${todo.id}`}
+                            onDoubleClick={() => deleteTodo(todo.id)}
+                            key={todo.id}
+                          >
+                            {todo.title}
+                          </Link>
+                        </ListItem>
+                      );
+                    })
+                : ""}
+            </div>
+          )}
+        </List>
+      </Container>
 
-
-        <button onClick={() => fetchTodos()}>get todos</button>
-        <button onClick={() => changeTodoFilter('all')}>show all</button>
-        <button onClick={() => changeTodoFilter(true)}>show completed</button>
-        <button onClick={() => changeTodoFilter(false)}>show current</button>
-        <button onClick={toForm} >to form</button>
+      <button onClick={toForm}>to form</button>
     </div>
-}
+  );
+};
 
-export default Main
+export default Main;
