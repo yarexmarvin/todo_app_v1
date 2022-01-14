@@ -32,7 +32,7 @@ function App() {
 
       />
         
-      <HashRouter basename={'https://yarexmarvin.github.io/todo_app_v1'}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         
 
         <Routes>
@@ -50,7 +50,7 @@ function App() {
           
 
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </div>
 
 
