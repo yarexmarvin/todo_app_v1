@@ -203,7 +203,7 @@ const Main: FC = () => {
           </Paper>
         </Toolbar>
       </AppBar>
-      <Container sx={{ m: "5vmax 0 1vmin" }}>
+      <Container sx={{ m: "5vmax 0 5vmax" }}>
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
@@ -257,7 +257,7 @@ const Main: FC = () => {
             </div>
           )}
         </List>
-        <Box sx={{ display: "flex", justifyContent: "flex-start" , width: '100%', mt: '1vmax'}}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" , width: '100%', mt: '1vmax', position:'fixed', bottom:"2vmax"}}>
           <Fab variant="extended" color="primary" size="medium">
             <Link style={{ color: "#fff" }} to="form">
               create a new task
