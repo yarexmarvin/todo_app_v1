@@ -1,12 +1,13 @@
 import { ITodos, todoActionType, todoActionTypes } from "../../types/todo";
 
-const initialState: ITodos = {
+export const initialState: ITodos = {
     todos: [],
     filter: 'all',
     loading: false,
 }
 
-const todoReducer = (state = initialState, action: todoActionType): ITodos => {
+
+const todoReducer = (state:ITodos =initialState , action: todoActionType): ITodos => {
     switch(action.type){
         case todoActionTypes.TODOS_LOAD: return  {...state, todos: [...state.todos, ...action.payload]}
         case todoActionTypes.TODO_DELETE: return {...state, todos: state.todos.filter(todo => todo.id !== action.payload)}

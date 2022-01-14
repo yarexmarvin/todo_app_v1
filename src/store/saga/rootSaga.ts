@@ -1,8 +1,9 @@
-import todoRandomFetchWatcher from "./todoSaga";
+import todoGetWatcher from "./getTodoSaga";
 import {all} from 'redux-saga/effects'
+import { setTodosWatcher } from "./setTodoSaga";
 
 
 
 export default function* rootWatcher(){
-    yield all([todoRandomFetchWatcher(),])
+    yield all([todoGetWatcher(), setTodosWatcher()])
 }

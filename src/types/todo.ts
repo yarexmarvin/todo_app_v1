@@ -15,17 +15,18 @@ export interface ITask {
 
 
 export enum todoActionTypes {
-    TODOS_RANDOM_FETCH = 'TODOS/RANDOM_FETCH',
+    TODOS_FETCH = 'TODOS/FETCH',
     TODOS_LOAD = 'TODOS/LOAD',
     TODO_ADD = 'TODO/ADD',
     TODO_DELETE = 'TODO/DELETE',
     TODO_COMPLETE = 'TODO/COMPLETE',
     TODOS_FILTER = 'TODOS/FILTER',
-    TODOS_LOADING = 'TODOS/LOADING'
+    TODOS_LOADING = 'TODOS/LOADING',
+    TODOS_SAVE = 'TODOS/SAVE'
 }
 
-export interface todosRandomFetch {
-    type: todoActionTypes.TODOS_RANDOM_FETCH;
+export interface todosFetch {
+    type: todoActionTypes.TODOS_FETCH;
 }
 export interface todosActionLoad {
     type: todoActionTypes.TODOS_LOAD;
@@ -51,11 +52,16 @@ export interface todoActionLoading {
     type: todoActionTypes.TODOS_LOADING;
     payload: boolean;
 }
+export interface todosActionSave {
+    type: todoActionTypes.TODOS_SAVE;
+    payload: ITask[];
+}
 
-export type todoActionType = todosRandomFetch
+export type todoActionType = todosFetch
 |todosActionLoad
 | todoActionAdd
 | todoActionDelete
 | todoActionComplete
 | todoActionFilter
 | todoActionLoading
+| todosActionSave

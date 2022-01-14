@@ -35,6 +35,7 @@ import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
 import { ITask } from "../types/todo";
 import { Box } from "@mui/system";
+import { saveTodos } from "../store/action-creators/todoActionCreator";
 
 const Main: FC = () => {
   const todos = useAppSelector((state) => state.todos);
@@ -65,13 +66,9 @@ const Main: FC = () => {
 
   let navigate = useNavigate();
 
-  function toForm() {
-    navigate("/form");
-  }
+  
 
-  interface IParams {
-    todo: string;
-  }
+
 
   function debounce<T extends Function>(fn: T, ms: number) {
     let timer;
@@ -129,14 +126,6 @@ const Main: FC = () => {
             onClose={handleClose}
             TransitionComponent={Fade}
           >
-            <MenuItem
-              onClick={() => {
-                fetchTodos();
-                handleClose();
-              }}
-            >
-              fetch todos
-            </MenuItem>
             <MenuItem
               onClick={() => {
                 changeTodoFilter("all");
