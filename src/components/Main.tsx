@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Button,
   Checkbox,
   Container,
   Fade,
@@ -166,9 +167,11 @@ const Main: FC = () => {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <div className="nav">
-              <NavLink to="form">create a new task</NavLink>
+              <Button sx={{mr: '1vmin'}} variant="contained" color="warning"><NavLink to="form">create a new task</NavLink></Button>
+              filter: {todos.filter === 'all' ? 'all' : todos.filter? 'completed' : 'current'}
             </div>
           </Typography>
+         
           <Paper
             sx={{
               p: "2px 4px",
@@ -253,8 +256,6 @@ const Main: FC = () => {
           )}
         </List>
       </Container>
-
-      <button onClick={toForm}>to form</button>
     </div>
   );
 };
