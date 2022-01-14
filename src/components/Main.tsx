@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link, Outlet, useRoutes, useSearchParams } from "react-router-dom";
+import { Link, Navigate, Outlet, useHref, useRoutes, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
@@ -16,7 +16,7 @@ const Main: FC = () => {
     const [search, setSearch] = useState<string>('')
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const todoQuery = searchParams.get('todo') || ''
+    let todoQuery = searchParams.get('todo') || ''
 
     useEffect(() => {
         console.log(todos)
@@ -34,24 +34,17 @@ const Main: FC = () => {
           todo: string;
       }
 
-    function handleSubmit(){
-        let params: IParams;
-        if(!search){
-            setSearchParams({})
-        }
+    useEffect(()=>{
         setSearchParams({todo: search});
-        setSearch('')
-
-    }
+    },[search])
 
     function handleSearch(e: React.ChangeEvent<HTMLInputElement>){
-        setSearch(e.target.value)
+        setSearch(e.target.value);
     }
 
     return <div className='App__inner'>
       
             <input value={search} type='search' onChange={e=>handleSearch(e)}/>
-            <input type='submit' value='search' onClick={handleSubmit} />
         
         {todos.filter === 'all'   ?
             <div>{tasks.length ? tasks
