@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import useAppSelector from './hooks/useAppSelector';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import TodoForm from './components/TodoForm';
 import Main from './components/Main';
 import Navigation from './components/Navigation';
@@ -32,7 +32,7 @@ function App() {
 
       />
         
-      <BrowserRouter>
+      <HashRouter basename="https://yarexmarvin.github.io/todo_app_v1">
         
 
         <Routes>
@@ -50,7 +50,7 @@ function App() {
           
 
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
 
 
