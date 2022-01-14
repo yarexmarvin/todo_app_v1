@@ -246,7 +246,7 @@ const Main: FC = () => {
             </div>
           )}
         </List>
-        <Box sx={{ display: "flex", justifyContent: "flex-end" , width: '100%', mt: '1vmax', position:'fixed', bottom:"2vmax"}}>
+        <Box sx={{ display: "flex", justifyContent: "flex-start" , width: '100%', mt: '1vmax', position:'fixed', bottom:"2vmax"}}>
           <Fab variant="extended" color="primary" size="medium">
             <Link style={{ color: "#fff" }} to="form">
               create a new task
