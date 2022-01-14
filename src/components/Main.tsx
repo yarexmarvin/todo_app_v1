@@ -7,6 +7,7 @@ import {
   IconButton,
   InputBase,
   List,
+  Fab,
   ListItem,
   Menu,
   MenuItem,
@@ -167,11 +168,15 @@ const Main: FC = () => {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <div className="nav">
-              <Button sx={{mr: '1vmin'}} variant="contained" color="warning"><NavLink to="form">create a new task</NavLink></Button>
-              filter: {todos.filter === 'all' ? 'all' : todos.filter? 'completed' : 'current'}
+              filter:{" "}
+              {todos.filter === "all"
+                ? "all"
+                : todos.filter
+                ? "completed"
+                : "current"}
             </div>
           </Typography>
-         
+
           <Paper
             sx={{
               p: "2px 4px",
@@ -186,7 +191,7 @@ const Main: FC = () => {
             </IconButton>
             <InputBase
               type="search"
-              sx={{ ml: 1, flex: 1 }}
+              sx={{ ml: 1, flexGrow: "20%" }}
               placeholder="search todo"
               inputProps={{ "aria-label": "search" }}
               value={search}
@@ -197,7 +202,7 @@ const Main: FC = () => {
           </Paper>
         </Toolbar>
       </AppBar>
-      <Container sx={{m: '5vmax 0 1vmin'}}>
+      <Container sx={{ m: "5vmax 0 1vmin" }}>
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
@@ -208,7 +213,7 @@ const Main: FC = () => {
                     .filter((todo) => todo.title.includes(todoQuery))
                     .map((todo: ITask) => {
                       return (
-                        <ListItem  key={todo.id}>
+                        <ListItem key={todo.id}>
                           <Checkbox
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
@@ -216,7 +221,6 @@ const Main: FC = () => {
                           <Link
                             to={`/todo/${todo.id}`}
                             onDoubleClick={() => deleteTodo(todo.id)}
-                           
                           >
                             {todo.title}
                           </Link>
@@ -236,7 +240,7 @@ const Main: FC = () => {
                     )
                     .map((todo: ITask) => {
                       return (
-                        <ListItem  key={todo.id}>
+                        <ListItem key={todo.id}>
                           <Checkbox
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
@@ -254,6 +258,9 @@ const Main: FC = () => {
             </div>
           )}
         </List>
+        <Fab variant="extended" color="primary">
+            <Link style={{color: '#fff'}} to="form">create a new task</Link>
+        </Fab>
       </Container>
     </div>
   );
