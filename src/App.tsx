@@ -32,7 +32,7 @@ function App() {
 
       />
         
-      <HashRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter basename={'https://yarexmarvin.github.io/todo_app_v1'}>
         
 
         <Routes>
