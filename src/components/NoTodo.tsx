@@ -1,5 +1,9 @@
+import { Navigate } from "react-router-dom"
+
 const NoTodo = () => {
-    return <div>there is no such todo</div>
+
+
+    return <Navigate to="/" replace />
 }
 
 export default NoTodo

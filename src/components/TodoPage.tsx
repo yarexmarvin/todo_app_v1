@@ -32,9 +32,14 @@ const TodoPage: FC = () => {
     }
   }
 
+
   
 
-  const {completeTodo, deleteTodo} = useAppActions()
+  const {completeTodo, deleteTodo} = useAppActions();
+
+  if(!todoId){
+    return <Navigate to="/" replace />
+  }
 
   return (
     <Container>

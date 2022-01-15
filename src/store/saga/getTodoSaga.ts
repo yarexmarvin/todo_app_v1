@@ -29,6 +29,7 @@ function* todoRandomFetchWorker(){
     console.log('data from localstorage => ', data)
 
     yield put(loadTodos(data))
+    
     yield put(loadingTodos(false));
 }
 

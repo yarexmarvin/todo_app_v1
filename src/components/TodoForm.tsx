@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   Container,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,6 +21,8 @@ const TodoForm: FC = () => {
   const todos = useAppSelector(state => state.todos.todos)
 
   const [newTask, setNewTask] = useState("");
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState(false)
   function setNewTaskTitle(
     event: React.ChangeEvent<HTMLTextAreaElement>
   ): void {
@@ -45,9 +48,15 @@ const TodoForm: FC = () => {
       completed: false,
     };
     if (taskTitle.trim() !== "") {
-      addTodo(newTask);
-      setNewTask("");
+      setOpen(true)
+      setTimeout(()=>{
+        addTodo(newTask);
+        setNewTask("");
       history("/");
+      },1500);
+      
+    } else {
+      setError(true)
     }
   }
  
@@ -75,6 +84,16 @@ const TodoForm: FC = () => {
           </Button>
         </CardActions>
       </Card>
+      <Snackbar
+        open={open}
+        message="Creating a new todo...."
+        autoHideDuration={5000}
+      />
+      <Snackbar
+        open={error}
+        message="Add a text in your todo!"
+        autoHideDuration={5000}
+      />
     </Container>
   );
 };

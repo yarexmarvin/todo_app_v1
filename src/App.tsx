@@ -48,6 +48,7 @@ function App() {
             <Route index element={<Main />} />
             <Route path="todo" element={<Todo />}>
               <Route path=":todoId" element={<TodoPage />} />
+              <Route path="*" element={<NoTodo />} />
             </Route>
             <Route path="form" element={<TodoForm />} />
             <Route path="*" element={<NoTodo />} />

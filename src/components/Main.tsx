@@ -15,6 +15,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  Snackbar,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -192,6 +193,8 @@ const Main: FC = () => {
           </Paper>
         </Toolbar>
       </AppBar>
+
+      {/* todos */}
       <Container sx={{ m: "5vmax 0 5vmax" }}>
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -254,6 +257,9 @@ const Main: FC = () => {
           </Fab>
         </Box>
       </Container>
+
+      
+
     </div>
   );
 };
