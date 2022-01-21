@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { FC, ReactNode, useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
 import { saveTodos } from "../store/action-creators/todoActionCreator";
@@ -17,6 +17,9 @@ import { ITask } from "../types/todo";
 
 const TodoForm: FC = () => {
   const { addTodo } = useAppActions();
+
+  let location = useLocation();
+  // console.log(location)
 
   const todos = useAppSelector(state => state.todos.todos)
 

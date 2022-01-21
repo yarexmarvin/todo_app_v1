@@ -67,10 +67,6 @@ const Main: FC = () => {
 
   let navigate = useNavigate();
 
-  
-
-
-
   function debounce<T extends Function>(fn: T, ms: number) {
     let timer;
     return function (args: string) {
@@ -159,12 +155,14 @@ const Main: FC = () => {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <div className="nav">
-              filter:{" "}
-              {todos.filter === "all"
-                ? "all"
-                : todos.filter
-                ? "completed"
-                : "current"}
+              <span className="filter">
+                filter:</span>{" "}
+                {todos.filter === "all"
+                  ? "all"
+                  : todos.filter
+                  ? "completed"
+                  : "current"}
+              
             </div>
           </Typography>
 
@@ -195,7 +193,7 @@ const Main: FC = () => {
       </AppBar>
 
       {/* todos */}
-      <Container sx={{ m: "5vmax 0 5vmax" }}>
+      <Container sx={{ m: "7vmax 0 5vmax" }}>
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
         >
@@ -211,11 +209,7 @@ const Main: FC = () => {
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
                           />
-                          <Link
-                            to={`/todo/${todo.id}`}
-                          >
-                            {todo.title}
-                          </Link>
+                          <Link to={`/todo/${todo.id}`}>{todo.title}</Link>
                         </ListItem>
                       );
                     })
@@ -237,11 +231,7 @@ const Main: FC = () => {
                             onChange={() => completeTodo(todo.id)}
                             checked={todo.completed}
                           />
-                          <Link
-                            to={`/todo/${todo.id}`}
-                          >
-                            {todo.title}
-                          </Link>
+                          <Link to={`/todo/${todo.id}`}>{todo.title}</Link>
                         </ListItem>
                       );
                     })
@@ -249,7 +239,16 @@ const Main: FC = () => {
             </div>
           )}
         </List>
-        <Box sx={{ display: "flex", justifyContent: "flex-start" , width: '100%', mt: '1vmax', position:'fixed', bottom:"2vmax"}}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+            mt: "1vmax",
+            position: "fixed",
+            bottom: "2vmax",
+          }}
+        >
           <Fab variant="extended" color="primary" size="medium">
             <Link style={{ color: "#fff" }} to="form">
               create a new task
@@ -257,9 +256,6 @@ const Main: FC = () => {
           </Fab>
         </Box>
       </Container>
-
-      
-
     </div>
   );
 };
