@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import { Link, useNavigate, useRoutes } from "react-router-dom";
+import { Link, useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { Navigate, useParams } from "react-router-dom";
 import { useAppActions } from "../hooks/useAppActions";
 import useAppSelector from "../hooks/useAppSelector";
@@ -19,6 +19,9 @@ const TodoPage: FC = () => {
 
   let params = useParams();
   let todoId = getTargetTodo();
+
+  let location = useLocation();
+  // console.log(location)
 
   let navigate = useNavigate();
 
