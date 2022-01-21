@@ -59,4 +59,13 @@ describe("renders", () => {
       render(component)
       expect(screen.getByText(/create a new task/i)).toBeInTheDocument();
   })
+
+  test('create button', ()=>{
+    let location = window.location.pathname;
+    expect(location).toBe('/')
+    render(component)
+    userEvent.click(screen.getByText(/create a new task/i));
+    location = window.location.pathname;
+    expect(location).toBe('/form')
+  })
 });
