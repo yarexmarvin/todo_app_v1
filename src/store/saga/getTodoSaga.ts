@@ -3,7 +3,7 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 import { ITask, ITodos, todoActionTypes } from '../../types/todo';
 import { fetchTodos, loadingTodos, loadTodos } from '../action-creators/todoActionCreator';
 
- const initialState: ITodos = {
+ export const initialState: ITodos = {
     todos: [
         {
             id: -1,
@@ -16,11 +16,11 @@ import { fetchTodos, loadingTodos, loadTodos } from '../action-creators/todoActi
 }
 
 
-const fetchTodosFromStorage = () => JSON.parse(localStorage.getItem('tasks') || JSON.stringify(initialState.todos));
+export const fetchTodosFromStorage = () => JSON.parse(localStorage.getItem('tasks') || JSON.stringify(initialState.todos));
 
 
 
-function* todoRandomFetchWorker(){
+export function* todoRandomFetchWorker(){
 
     yield put(loadingTodos(true));
 

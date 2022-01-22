@@ -1,5 +1,7 @@
-import { addTodo, changeTodoFilter, completeTodo, deleteTodo, loadingTodos, loadTodos } from "../store/action-creators/todoActionCreator";
+import { call, put } from "redux-saga/effects";
+import { addTodo, changeTodoFilter, completeTodo, deleteTodo, fetchTodos, loadingTodos, loadTodos, saveTodos } from "../store/action-creators/todoActionCreator";
 import todoReducer, { initialState } from "../store/reducers/todoReducer";
+import { fetchTodosFromStorage, todoRandomFetchWorker } from "../store/saga/getTodoSaga";
 import { ITask, ITodos } from "../types/todo";
 
 
@@ -18,7 +20,33 @@ let mockState2: ITodos = {
     loading: false
 }
 
-
+let tasks: ITask[] = [
+    {
+        id: 99999,
+        title: 'new task1', 
+        completed: true,
+    },
+    {
+        id: 99991,
+        title: 'new task2', 
+        completed: false,
+    },
+    {
+        id: 99919,
+        title: 'new task3', 
+        completed: true,
+    },
+    {
+        id: 992999,
+        title: 'new task4', 
+        completed: false,
+    },
+    {
+        id: 99949,
+        title: 'new task5', 
+        completed: false,
+    }
+]
 
 test('add function', () => {
     let task: ITask = {
@@ -35,33 +63,7 @@ test('add function', () => {
 });
 
 test('todo loads', ()=> {
-    let tasks: ITask[] = [
-        {
-            id: 99999,
-            title: 'new task1', 
-            completed: true,
-        },
-        {
-            id: 99991,
-            title: 'new task2', 
-            completed: false,
-        },
-        {
-            id: 99919,
-            title: 'new task3', 
-            completed: true,
-        },
-        {
-            id: 992999,
-            title: 'new task4', 
-            completed: false,
-        },
-        {
-            id: 99949,
-            title: 'new task5', 
-            completed: false,
-        }
-    ]
+    
 
     let mockLoadTodosAction = loadTodos(tasks);
     let mockState = todoReducer(mockState2, mockLoadTodosAction);
@@ -98,6 +100,25 @@ test('loading state changes', () => {
     expect(mockState.loading).toBeTruthy();
 })
 
+test('saga fetching', ()=>{
 
+    const data: ITodos = {
+        todos: [
+            {
+                id: -1,
+                title: 'test task-1',
+                completed: false,
+            }
+        ],
+        filter: 'all',
+        loading: false,
+    }
+    
+    const g = todoRandomFetchWorker();
+    expect(g.next().value).toEqual(put(loadingTodos(true)));
+    expect(g.next().value).toEqual(call(fetchTodosFromStorage));
+    expect(g.next(data.todos).value).toEqual(put(loadTodos(data.todos)));
+    expect(g.next().value).toEqual(put(loadingTodos(false)))
+})
 
 
